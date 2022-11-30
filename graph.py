@@ -13,7 +13,7 @@ class Graph:
             3: [(2, 50)]
         }
 
-    NOTE: This graph is directed, so an edge from 0 to 1 does not imply an edge from 1 to 0
+    NOTE: This graph is undirected, so an edge from 0 to 1 does imply an edge from 1 to 0 as well!
     NOTE: In the adjacency list for a node, there are tuples with the first element as the edge destination 
     and the second element being the weight of that edge
     '''
@@ -25,6 +25,7 @@ class Graph:
 
     def add_edge(self, source, destination, weight):
         self.adjacency_list[source].append((destination, weight))
+        self.adjacency_list[destination].append((destination, weight))
 
     def all_edges_for_vertex(self, vertex):
         return self.adjacency_list[vertex]
