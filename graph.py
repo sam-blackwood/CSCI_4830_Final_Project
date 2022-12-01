@@ -1,6 +1,6 @@
 import numpy as np
 from random import randint
-from itertools import count, filterfalse # ifilterfalse on py2
+from itertools import count, filterfalse
 
 class Graph:
 
