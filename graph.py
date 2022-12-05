@@ -26,7 +26,10 @@ class Graph:
     def __init__(self, num_vertices):
         self.num_vertices = num_vertices
         self.num_edges = 0
-        self.adjacency_list = {i : [] for i in range(1,num_vertices+1)} # label vertices 1,...,n
+        self.adjacency_list = {i : [] for i in range(1, num_vertices + 1)} # label vertices 1,...,n
+
+    def get_num_vertices(self):
+        return self.num_vertices
 
     def add_edge(self, v1, v2, weight):
         # add this check for purposes in random graph generation
