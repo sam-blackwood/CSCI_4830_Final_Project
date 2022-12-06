@@ -16,9 +16,12 @@ class Node:
         self.child = []
         self.order = 0
         self.key = key
+        self.parent = None
+        self.marked = False
 
-    # Adding tree at the end of the tree
+    # Adding node to child list
     def add_at_end(self, t):
+        t.parent = self
         self.child.append(t)
         self.order = self.order + 1
 
@@ -36,7 +39,7 @@ class FibonacciHeap:
     def get_value(self, key):
         return self.all_nodes[key].value
 
-    def insert_node(self, value, key):
+    def insert_node(self, key, value):
         new_node = Node(value, key)
         self.all_nodes[key] = new_node
         self.nodes.append(new_node)
@@ -57,6 +60,7 @@ class FibonacciHeap:
             #taking all nodes from min node append to root list
             for child in smallest.child:
                 self.nodes.append(child)
+                child.parent = None
             self.nodes.remove(smallest)
             if self.nodes == []:
                 self.min = None
@@ -65,6 +69,34 @@ class FibonacciHeap:
                 self.consolidate()
             self.count = self.count - 1
             return smallest.value, smallest.key
+
+
+    def decrease_key(self, key, value):
+        node = self.all_nodes[key]
+        node.value = value
+        node_parent = node.parent
+        if node_parent != None and node.value < node_parent.value:
+            self.cut(node)
+            self.cascading_cut(node_parent)
+        if node.value < self.min.value:
+            self.min = node
+
+    def cut(self, node):
+        node.parent.child.remove(node)
+        node.parent.order = node.parent.order - 1
+        self.nodes.append(node)
+        node.parent = None
+        node.marked = False
+    
+    def cascading_cut(self, node):
+        node_parent = node.parent
+        if node_parent != None:
+            if node.marked == False:
+                node.marked = True
+            else:
+                self.cut(node)
+                self.cascading_cut(node_parent)
+
 
     #consolidate tree so every node in root list has different rank
     def consolidate(self):
