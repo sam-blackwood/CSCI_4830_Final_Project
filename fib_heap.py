@@ -30,10 +30,15 @@ class FibonacciHeap:
         self.min = None
         #this is how many nodes are in root list
         self.count = 0
+        self.all_nodes = {}
 
+
+    def get_value(self, key):
+        return self.all_nodes[key].value
 
     def insert_node(self, value, key):
         new_node = Node(value, key)
+        self.all_nodes[key] = new_node
         self.nodes.append(new_node)
         if (self.min == None or value < self.min.value):
             self.min = new_node
@@ -48,6 +53,7 @@ class FibonacciHeap:
     def extract_min(self):
         smallest = self.min
         if smallest != None:
+            self.all_nodes.pop(smallest.key)
             #taking all nodes from min node append to root list
             for child in smallest.child:
                 self.nodes.append(child)
