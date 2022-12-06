@@ -1,8 +1,12 @@
 import sys
+import time
+
 def run_dijkstra(run_graph, run_heap, start_node, end_node):
 
+    start = time.time()
+
     num_vertices = run_graph.get_num_vertices
-    distance_heap = FibonacciHeap()
+    distance_heap = run_heap
     visited_nodes = {}
 
     for i in range(1, num_vertices + 1):
@@ -19,9 +23,7 @@ def run_dijkstra(run_graph, run_heap, start_node, end_node):
         neighbors_weighted = run_graph.all_edges_for_vertex(current_node)
         unvisited_neighbors_weighted = [x for x in neighbors_weighted if not visited_nodes[x[0]]]
 
-        # Update distances and select nearest neighbor
-        nearest_neighbor = None
-        nearest_neighbor_dist = sys.maxsize
+        # Update distances
 
         for unvisited in unvisited_neighbors_weighted:
             current_distance = distance_heap.get_value(unvisited[0])
@@ -30,24 +32,16 @@ def run_dijkstra(run_graph, run_heap, start_node, end_node):
             if potential_distance < current_distance:
                 distance_heap.update_value(unvisited[0], potential_distance)
 
-                # Check if nearest neighbor
-                if potential_distance < nearest_neighbor_dist:
-                    nearest_neighbor = unvisited[0]
-                    nearest_neighbor_dist = potential_distance
-
-            else:
-                # Check if nearest neighbor
-                if current_distance < nearest_neighbor_dist:
-                    nearest_neighbor = unvisited[0]
-                    nearest_neighbor_dist = current_distance
-
         # Update current node as visited
         visited_nodes[current_node] = True
 
+        # Select nearest neighbor
+        nearest_neighbor = distance_heap.extract_min()
+
         # No solution
-        if nearest_neighbor_dist >= sys.maxsize:
-            return False, "infinity", solution_path
+        if nearest_neighbor[1] >= sys.maxsize:
+            return False, "infinity", solution_path, time.time() - start
 
-        current_node = nearest_neighbor
+        current_node = nearest_neighbor[0]
 
-    return True, distance_heap.get_value(end_node), solution_path
+    return True, distance_heap.get_value(end_node), solution_path, time.time() - start
