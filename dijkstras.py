@@ -13,7 +13,7 @@ def run_dijkstra(run_graph, run_heap, start_node, end_node):
         distance_heap.insert_node(i, sys.maxsize)
         visited_nodes[i] = False
 
-    distance_heap.update_value(start_node, 0)
+    distance_heap.decrease_key(start_node, 0)
 
     solution_path = []
 
@@ -30,7 +30,7 @@ def run_dijkstra(run_graph, run_heap, start_node, end_node):
             potential_distance = distance_heap.get_value(current_node) + unvisited[1]
             
             if potential_distance < current_distance:
-                distance_heap.update_value(unvisited[0], potential_distance)
+                distance_heap.decrease_key(unvisited[0], potential_distance)
 
         # Update current node as visited
         visited_nodes[current_node] = True

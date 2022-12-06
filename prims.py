@@ -15,7 +15,7 @@ def run_prims(run_graph, run_heap, start_node):
         distance_heap.insert_node(i, sys.maxsize)
         mst_set[i] = 0
 
-    distance_heap.update_value(start_node, 0)
+    distance_heap.decrease_key(start_node, 0)
     parents[start_node] = 0
 
     while mst_size < num_vertices:
@@ -38,7 +38,7 @@ def run_prims(run_graph, run_heap, start_node):
             potential_distance = new_addition[1] + unvisited[1]
 
             if potential_distance < current_distance:
-                distance_heap.update_value(unvisited[0], potential_distance)
+                distance_heap.decrease_key(unvisited[0], potential_distance)
                 parents[unvisited[0]] = new_addition[0]
 
     
