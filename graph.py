@@ -30,9 +30,12 @@ class Graph:
 
     def get_num_vertices(self):
         return self.num_vertices
+    
+    def get_num_edges(self):
+        return self.num_edges
 
     def add_edge(self, v1, v2, weight):
-        # add this check for purposes in random graph generation
+        # add this check for purposes in random graph generation, prevents more than one edge between nodes
         if not self.check_edge_exists(v1, v2):
             self.adjacency_list[v1].append((v2, weight))
             self.adjacency_list[v2].append((v1, weight))
@@ -76,9 +79,10 @@ def generate_edge_pair(n):
         v2 = randint(1,n)
     return v1, v2
 
-def generate_random_graph(n, max_weight):
+def generate_random_graph(n, p, max_weight):
     '''
     Parameters: n, the number of nodes in the random graph
+                p, the probability that an edge is chosen to exist in the graph
                 max_weight, the maximum allowed weight of an edge.
     Main idea: choose the number of edges in the graph according to a binomial distribution with 
     parameter N being the number of "extra" edges in the graph (i.e. n choose 2 - min_num_edges and 
@@ -87,8 +91,6 @@ def generate_random_graph(n, max_weight):
     '''
     num_possible_edges = n*(n-1)/2 # n choose 2
     min_num_edges = n-1 # must have at least n-1 edges to have one connected component
-    p = 1/n
-    # choose an additional number of edges according to a binomial with p = 1/n
     num_edges = min_num_edges + np.random.binomial(num_possible_edges - min_num_edges, p)
     
     g = Graph(n)
@@ -102,14 +104,41 @@ def generate_random_graph(n, max_weight):
     g.add_prufer_sequence_edges(generate_prufer_sequence(n), max_weight)
     
     return g
+
+def verify_connected_component(g, s):
+    # perform a simple BFS to verify the graph is connected
+    
+    expected_num_vertices = g.get_num_vertices()
+    visited = [False] * (expected_num_vertices)
+    
+    queue = []
+    queue.append(s)
+    visited[s-1] = True
+    
+    num_vertices = 1
+    
+    while queue:
+        s = queue.pop(0)
+        for v, _ in g.adjacency_list[s]:
+            if visited[v-1] == False:
+                queue.append(v)
+                visited[v-1] = True
+                num_vertices += 1
+    
+    return True if num_vertices == expected_num_vertices else False
             
 
 def main():
-    N = 6
+    N = 1000
+    P = 1/N
     MAX_WEIGHT = 25
-    rg = generate_random_graph(N, MAX_WEIGHT)
-    print(rg.num_edges)
-    print(rg.adjacency_list)
+    rg = generate_random_graph(N, P, MAX_WEIGHT)
+    
+    print(rg.get_num_edges())
+
+    # uncomment to verify the graph is one connected component
+    # print(verify_connected_component(rg, 1))
+    
 
 if __name__=="__main__":
     main()
