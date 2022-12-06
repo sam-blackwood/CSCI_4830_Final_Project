@@ -5,7 +5,7 @@ def run_dijkstra(run_graph, run_heap, start_node, end_node):
 
     start = time.time()
 
-    num_vertices = run_graph.get_num_vertices
+    num_vertices = run_graph.get_num_vertices()
     distance_heap = run_heap
     visited_nodes = {}
 
@@ -17,7 +17,9 @@ def run_dijkstra(run_graph, run_heap, start_node, end_node):
 
     solution_path = []
 
-    current_node = start_node
+
+    nearest_neighbor = distance_heap.extract_min()
+    current_node = nearest_neighbor[0]
     while not visited_nodes[end_node]:
         solution_path.append(current_node)
         neighbors_weighted = run_graph.all_edges_for_vertex(current_node)
@@ -27,7 +29,7 @@ def run_dijkstra(run_graph, run_heap, start_node, end_node):
 
         for unvisited in unvisited_neighbors_weighted:
             current_distance = distance_heap.get_value(unvisited[0])
-            potential_distance = distance_heap.get_value(current_node) + unvisited[1]
+            potential_distance = nearest_neighbor[1] + unvisited[1]
             
             if potential_distance < current_distance:
                 distance_heap.decrease_key(unvisited[0], potential_distance)
@@ -43,5 +45,5 @@ def run_dijkstra(run_graph, run_heap, start_node, end_node):
             return False, "infinity", solution_path, time.time() - start
 
         current_node = nearest_neighbor[0]
-
-    return True, distance_heap.get_value(end_node), solution_path, time.time() - start
+        
+    return True, nearest_neighbor[1], solution_path, time.time() - start

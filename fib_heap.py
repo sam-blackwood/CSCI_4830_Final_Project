@@ -50,7 +50,7 @@ class FibonacciHeap:
     def get_min(self):
         if self.min == None:
             return None
-        return self.min.value, self.min.key
+        return self.min.key, self.min.value
 
     #get min value, then delete it
     def extract_min(self):
@@ -68,7 +68,7 @@ class FibonacciHeap:
                 self.min = self.nodes[0]
                 self.consolidate()
             self.count = self.count - 1
-            return smallest.value, smallest.key
+            return smallest.key, smallest.value 
 
 
     def decrease_key(self, key, value):
