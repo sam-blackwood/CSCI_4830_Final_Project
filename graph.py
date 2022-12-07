@@ -1,6 +1,7 @@
 import numpy as np
 from random import randint
 from itertools import count, filterfalse
+import matplotlib.pyplot as plt
 
 class Graph:
 
@@ -125,19 +126,29 @@ def verify_connected_component(g, s):
                 visited[v-1] = True
                 num_vertices += 1
     
-    return True if num_vertices == expected_num_vertices else False
+    return (True, s) if num_vertices == expected_num_vertices else (False, None)
             
 
 def main():
     N = 1000
     P = 1/N
     MAX_WEIGHT = 25
-    rg = generate_random_graph(N, P, MAX_WEIGHT)
+    rg = generate_random_graph(N, 0.5, MAX_WEIGHT)
     
-    print(rg.get_num_edges())
+    #print(rg.get_num_edges())
 
     # uncomment to verify the graph is one connected component
-    # print(verify_connected_component(rg, 1))
+    print(verify_connected_component(rg, 1))
+    
+    # g = Graph(6)
+    # g.add_edge(1,2,1)
+    # g.add_edge(1,3,2)
+    # g.add_edge(2,5,3)
+    # g.add_edge(2,4,5)
+    # g.add_edge(3,4,6)
+    # g.add_edge(3,5,7)
+    # g.add_edge(5,6,10)
+    # g.add_edge(4,6,4)
     
 
 if __name__=="__main__":

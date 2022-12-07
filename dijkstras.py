@@ -1,5 +1,6 @@
 import sys
 import time
+import graph
 
 def run_dijkstra(run_graph, run_heap, start_node, end_node):
 
@@ -15,13 +16,12 @@ def run_dijkstra(run_graph, run_heap, start_node, end_node):
 
     distance_heap.decrease_key(start_node, 0)
 
-    solution_path = []
-
-
     nearest_neighbor = distance_heap.extract_min()
     current_node = nearest_neighbor[0]
+    prev = {}
+    
     while not visited_nodes[end_node]:
-        solution_path.append(current_node)
+
         neighbors_weighted = run_graph.all_edges_for_vertex(current_node)
         unvisited_neighbors_weighted = [x for x in neighbors_weighted if not visited_nodes[x[0]]]
 
@@ -33,17 +33,32 @@ def run_dijkstra(run_graph, run_heap, start_node, end_node):
             
             if potential_distance < current_distance:
                 distance_heap.decrease_key(unvisited[0], potential_distance)
+                prev[unvisited[0]] = current_node
 
         # Update current node as visited
         visited_nodes[current_node] = True
+        
+        if current_node == end_node:
+            return True, nearest_neighbor[1], get_shortest_path(prev, start_node, end_node), time.time() - start
 
         # Select nearest neighbor
         nearest_neighbor = distance_heap.extract_min()
 
         # No solution
         if nearest_neighbor[1] >= sys.maxsize:
-            return False, "infinity", solution_path, time.time() - start
+            return False, "infinity", prev, time.time() - start
 
         current_node = nearest_neighbor[0]
         
-    return True, nearest_neighbor[1], solution_path, time.time() - start
+        
+def get_shortest_path(prev, start_node, end_node):
+
+    curr_node = end_node
+    solution_path = [end_node]
+
+    while curr_node != start_node:
+        solution_path.insert(0, prev[curr_node])
+        curr_node = prev[curr_node]
+
+    return solution_path
+        
