@@ -5,6 +5,7 @@ import graph
 from fib_heap import FibonacciHeap
 from dijkstras import run_dijkstra, get_shortest_path
 from prims import run_prims
+from reg_heap import MinHeap
 
 def test_dijkstra(n_vals):
     
@@ -46,6 +47,9 @@ def main():
     g.add_edge(4,6,7)
     
     success, dist, shortest_path, t = run_dijkstra(g, FibonacciHeap(), 1, 6)
+    print("distance: {}, path: {}".format(dist, shortest_path))
+
+    success, dist, shortest_path, t = run_dijkstra(g, MinHeap(), 1, 6)
     print("distance: {}, path: {}".format(dist, shortest_path))
     
     # g = graph.Graph(4)
