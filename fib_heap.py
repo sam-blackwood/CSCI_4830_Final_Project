@@ -8,8 +8,6 @@
 
 import math
 
-# Creating fibonacci tree
-
 class Node:
     def __init__(self, value, key):
         self.value = value
