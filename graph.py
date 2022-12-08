@@ -130,10 +130,10 @@ def verify_connected_component(g, s):
             
 
 def main():
-    N = 1000
+    N = 3000
     P = 1/N
     MAX_WEIGHT = 25
-    rg = generate_random_graph(N, 0.5, MAX_WEIGHT)
+    rg = generate_random_graph(N, 0.1, MAX_WEIGHT)
     
     #print(rg.get_num_edges())
 

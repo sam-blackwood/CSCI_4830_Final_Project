@@ -39,7 +39,8 @@ def run_dijkstra(run_graph, run_heap, start_node, end_node):
         visited_nodes[current_node] = True
         
         if current_node == end_node:
-            return True, nearest_neighbor[1], get_shortest_path(prev, start_node, end_node), time.time() - start
+            path = get_shortest_path(prev, start_node, end_node)
+            return True, nearest_neighbor[1], path, time.time() - start
 
         # Select nearest neighbor
         nearest_neighbor = distance_heap.extract_min()
