@@ -1,6 +1,5 @@
 import sys
 import time
-import graph
 
 def run_dijkstra(run_graph, run_heap, start_node, end_node):
 
