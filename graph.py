@@ -133,23 +133,10 @@ def main():
     N = 3000
     P = 1/N
     MAX_WEIGHT = 25
-    rg = generate_random_graph(N, 0.1, MAX_WEIGHT)
-    
-    #print(rg.get_num_edges())
+    rg = generate_random_graph(N, P, MAX_WEIGHT)
 
     # uncomment to verify the graph is one connected component
-    print(verify_connected_component(rg, 1))
-    
-    # g = Graph(6)
-    # g.add_edge(1,2,1)
-    # g.add_edge(1,3,2)
-    # g.add_edge(2,5,3)
-    # g.add_edge(2,4,5)
-    # g.add_edge(3,4,6)
-    # g.add_edge(3,5,7)
-    # g.add_edge(5,6,10)
-    # g.add_edge(4,6,4)
-    
+    # print(verify_connected_component(rg, 1))
 
 if __name__=="__main__":
     main()

@@ -1,4 +1,3 @@
-import numpy as np
 import matplotlib.pyplot as plt
 
 import graph
@@ -7,6 +6,8 @@ from dijkstras import run_dijkstra
 from prims import run_prims
 from reg_heap import MinHeap
 
+
+# Defined this class to store the result returned from Dijkstra's algorithm
 class Result:
     
     def __init__(self, s, d, p, t):
@@ -16,6 +17,12 @@ class Result:
         self.time = t
 
 def test_dijkstra(n_vals, sparse):
+    '''
+    Runs n tests for the number of different n_vals provided. It will create a sparse graph if 
+    sparse is set to True. It ensures that the graph is indeed connected and then grabs the results
+    from running Dijkstra's algroithm on the corresponding random graph. The results are put in a 
+    list and returned upon completion of all tests.
+    '''
     
     solution_lst_fib = []
     solution_lst_min = []
@@ -30,7 +37,7 @@ def test_dijkstra(n_vals, sparse):
             is_connected, end_node = graph.verify_connected_component(rg, start_node)
 
             if not is_connected:
-                return False
+                return None, None
             
             s1, dist1, path1, t1 = run_dijkstra(rg, FibonacciHeap(), start_node, end_node)
             s2, dist2, path2, t2 = run_dijkstra(rg, MinHeap(), start_node, end_node)
@@ -61,6 +68,9 @@ def test_dijkstra(n_vals, sparse):
 
 
 def test_prim(n_vals):
+    '''
+    Similar to test_dijkstra except it only tests on a sparse graph and only returns the time values.
+    '''
     
     t_vals_fib = []
     t_vals_min = []
