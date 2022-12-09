@@ -54,6 +54,13 @@ class Graph:
         return False
     
     def add_prufer_sequence_edges(self, ps, max_weight):
+        '''
+        Algorithm to recover a spanning tree from a Prufer sequence. Start with a list of of all vertices in 
+        the graph. Iterate over the the list and grab the lowest numbered vertex not in the Prufer sequence.
+        Remove that vertex from the min_lst and put it at the end of the prufer sequence. Create an edge
+        between the min vertex and the first element of the Prufer sequence. Remove the front element of 
+        the Prufer sequence and repeat n times.
+        '''
         min_lst = [x for x in range(1,self.num_vertices+1)]
         n = len(ps)
         for _ in range(n):
