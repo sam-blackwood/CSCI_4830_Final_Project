@@ -1,9 +1,7 @@
-# Fibonacci Heap in python
-
 #mainly used this source for extract min and deleting min
 # https://www.cs.princeton.edu/~wayne/teaching/fibonacci-heap.pdf
 
-#some inspiration from this source
+#code template from this source
 # https://www.programiz.com/dsa/fibonacci-heap
 
 import math
@@ -33,10 +31,11 @@ class FibonacciHeap:
         self.count = 0
         self.all_nodes = {}
 
-
+    #returns the value of a node
     def get_value(self, key):
         return self.all_nodes[key].value
 
+    #insert a node into the heap
     def insert_node(self, key, value):
         new_node = Node(value, key)
         self.all_nodes[key] = new_node
@@ -45,6 +44,7 @@ class FibonacciHeap:
             self.min = new_node
         self.count = self.count + 1
 
+    #returns the min value
     def get_min(self):
         if self.min == None:
             return None
@@ -69,6 +69,7 @@ class FibonacciHeap:
             return smallest.key, smallest.value 
 
 
+    #decrease the value of a node in the heap
     def decrease_key(self, key, value):
         node = self.all_nodes[key]
         node.value = value
