@@ -6,9 +6,6 @@ class MinHeap:
     def __init__(self):
         self.nodes = {}
         self.heap = []
-  
-    def parent(self, i):
-        return (i-1)/2
 
     def get_value(self, key):
         return self.nodes[key]
@@ -26,5 +23,4 @@ class MinHeap:
         return ret[1], ret[0]
 
     def decrease_key(self, key, value):
-        self.nodes[key] = value
         self.insert_node(key, value)
