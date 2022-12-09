@@ -54,6 +54,13 @@ class Graph:
         return False
     
     def add_prufer_sequence_edges(self, ps, max_weight):
+        '''
+        Algorithm to recover a spanning tree from a Prufer sequence. Start with a list of of all vertices in 
+        the graph. Iterate over the the list and grab the lowest numbered vertex not in the Prufer sequence.
+        Remove that vertex from the min_lst and put it at the end of the prufer sequence. Create an edge
+        between the min vertex and the first element of the Prufer sequence. Remove the front element of 
+        the Prufer sequence and repeat n times.
+        '''
         min_lst = [x for x in range(1,self.num_vertices+1)]
         n = len(ps)
         for _ in range(n):
@@ -130,26 +137,13 @@ def verify_connected_component(g, s):
             
 
 def main():
-    N = 1000
+    N = 3000
     P = 1/N
     MAX_WEIGHT = 25
-    rg = generate_random_graph(N, 0.5, MAX_WEIGHT)
-    
-    #print(rg.get_num_edges())
+    rg = generate_random_graph(N, P, MAX_WEIGHT)
 
     # uncomment to verify the graph is one connected component
-    print(verify_connected_component(rg, 1))
-    
-    # g = Graph(6)
-    # g.add_edge(1,2,1)
-    # g.add_edge(1,3,2)
-    # g.add_edge(2,5,3)
-    # g.add_edge(2,4,5)
-    # g.add_edge(3,4,6)
-    # g.add_edge(3,5,7)
-    # g.add_edge(5,6,10)
-    # g.add_edge(4,6,4)
-    
+    # print(verify_connected_component(rg, 1))
 
 if __name__=="__main__":
     main()

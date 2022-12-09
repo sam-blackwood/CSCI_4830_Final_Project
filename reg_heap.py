@@ -23,4 +23,9 @@ class MinHeap:
         return ret[1], ret[0]
 
     def decrease_key(self, key, value):
-        self.insert_node(key, value)
+        index = self.heap.index((self.get_value(key), key))
+        
+        self.heap[index] = (value, key)
+        heapify(self.heap)
+               
+        self.nodes[key] = value
